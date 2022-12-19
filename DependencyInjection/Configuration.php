@@ -1015,16 +1015,25 @@ class Configuration implements ConfigurationInterface
                         ->ifArray()
                         ->then(function ($v) {
                             $map = [];
-                            $verbosities = ['VERBOSITY_QUIET', 'VERBOSITY_NORMAL', 'VERBOSITY_VERBOSE', 'VERBOSITY_VERY_VERBOSE', 'VERBOSITY_DEBUG'];
-                            $verbosityConstants = [OutputInterface::VERBOSITY_QUIET, OutputInterface::VERBOSITY_NORMAL, OutputInterface::VERBOSITY_VERBOSE, OutputInterface::VERBOSITY_VERY_VERBOSE, OutputInterface::VERBOSITY_DEBUG];
-                            // allow numeric indexed array with ascending verbosity and lowercase names of the constants
+                            $verbosities = [
+                                // allow numeric indexed array with ascending verbosity
+                                0 => 'VERBOSITY_QUIET',
+                                1 => 'VERBOSITY_NORMAL',
+                                2 => 'VERBOSITY_VERBOSE',
+                                3 => 'VERBOSITY_VERY_VERBOSE',
+                                4 => 'VERBOSITY_DEBUG',
+                                // or array indexed by verbosity constants
+                                OutputInterface::VERBOSITY_QUIET => 'VERBOSITY_QUIET',
+                                OutputInterface::VERBOSITY_NORMAL => 'VERBOSITY_NORMAL',
+                                OutputInterface::VERBOSITY_VERBOSE => 'VERBOSITY_VERBOSE',
+                                OutputInterface::VERBOSITY_VERY_VERBOSE => 'VERBOSITY_VERY_VERBOSE',
+                                OutputInterface::VERBOSITY_DEBUG => 'VERBOSITY_DEBUG',
+                            ];
                             foreach ($v as $verbosity => $level) {
                                 if (is_int($verbosity) && isset($verbosities[$verbosity])) {
-                                    $map[$verbosities[$verbosity]] = strtoupper($level);
-                                } elseif (is_int($verbosity) && false !== $i = \array_search($verbosity, $verbosityConstants, true)) {
-                                    $map[$verbosities[$i]] = strtoupper($level);
+                                    $map[$verbosities[$verbosity]] = $level;
                                 } else {
-                                    $map[strtoupper($verbosity)] = strtoupper($level);
+                                    $map[strtoupper($verbosity)] = $level;
                                 }
                             }
 

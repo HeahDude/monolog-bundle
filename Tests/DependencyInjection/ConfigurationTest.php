@@ -305,10 +305,28 @@ class ConfigurationTest extends TestCase
                 OutputInterface::VERBOSITY_DEBUG => Logger::DEBUG
             ]
         ];
+
+        yield 'with numeric index' => [
+            [
+                LOGGER::ALERT,
+                LOGGER::ERROR,
+                LOGGER::WARNING,
+                LOGGER::NOTICE,
+                LOGGER::INFO,
+            ],
+            [
+                OutputInterface::VERBOSITY_QUIET => Logger::ALERT,
+                OutputInterface::VERBOSITY_NORMAL => Logger::ERROR,
+                OutputInterface::VERBOSITY_VERBOSE => Logger::WARNING,
+                OutputInterface::VERBOSITY_VERY_VERBOSE => Logger::NOTICE,
+                OutputInterface::VERBOSITY_DEBUG => Logger::INFO,
+            ]
+        ];
+
         yield 'with constants' => [
             [
                 OutputInterface::VERBOSITY_NORMAL => Logger::NOTICE,
-                'verbosity_verbose' => 'info',
+                OutputInterface::VERBOSITY_VERBOSE => 'info',
                 OutputInterface::VERBOSITY_VERY_VERBOSE => Logger::INFO
             ],
             [
